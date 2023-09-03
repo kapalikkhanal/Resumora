@@ -8,8 +8,10 @@ import { useToast } from '@chakra-ui/react'
 
 const SigninSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
-    password: Yup.string()
-        .required('Required'),
+    password: Yup.string().required('Required'),
+    terms: Yup
+        .bool()
+        .oneOf([true], 'You must accept the terms and conditions.'),
 });
 
 function page() {
@@ -22,24 +24,24 @@ function page() {
         })
         const data = await res.json()
         const status = await res.status
-        if(status == 404){
-        toast({
-            title: data.msg,
-            status: 'error',
-            duration: 3000,
-            isClosable: true,
-            position: 'top-right',
-          })
+        if (status == 404) {
+            toast({
+                title: data.msg,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'top-right',
+            })
         }
-        else if(status == 200){
+        else if (status == 200) {
             toast({
                 title: data.msg,
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
                 position: 'top-right',
-              })
-            }
+            })
+        }
     }
     return (
         <main className="bg-gray-50 dark:bg-gray-900 md:h-screen">
@@ -59,6 +61,7 @@ function page() {
                             initialValues={{
                                 email: '',
                                 password: '',
+                                terms: false,
                             }}
                             validationSchema={SigninSchema}
                             onSubmit={(values, { resetForm }) => {
@@ -87,14 +90,26 @@ function page() {
                                         ) : null}
                                     </div>
 
+                                    <div className="flex items-center justify-between">
+                                        <div></div>
+                                        <a href="#" className="text-sm font-medium text-white hover:underline">Forgot password?</a>
+                                    </div>
+
                                     {/* Create an account button  */}
                                     <div className="flex items-start">
-                                        <div className="flex items-center h-5">
-                                            <input id="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="" />
+
+                                        {/* Terms and Conditions */}
+                                        <div>
+                                            <Field name="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
                                         </div>
                                         <div className="ml-3 text-sm">
-                                            <label for="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">Terms and Conditions</a></label>
+                                            <label for="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <Link className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">Terms and Conditions</Link></label>
+                                            {errors.terms && touched.terms ? (
+                                                <ErrorMessage name="terms" component="div" className="sm:text-sm text-semibold font-small dark:text-red-600" />
+                                            ) : null}
                                         </div>
+                                        {/* Terms and Conditions */}
+
                                     </div>
                                     <button type="submit" onSubmit={values => { handleSubmit(values); }} className="w-full text-white bg-gray-800 hover:bg-[#2f4454] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                                     <p className="text-sm font-light text-gray-300 dark:text-gray-200">

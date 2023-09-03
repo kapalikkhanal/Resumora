@@ -33,6 +33,8 @@ const SignupSchema = Yup.object().shape({
         .required('Required'),
 
     email: Yup.string().email('Invalid email').required('Required'),
+
+    terms: Yup.bool().oneOf([true], 'You must accept the terms and conditions.'),
 });
 
 export default function page() {
@@ -61,12 +63,15 @@ export default function page() {
                 duration: 3000,
                 isClosable: true,
                 position: 'top-right',
+                render: () => (
+                    <Link href={"/"}></Link>
+                )
             })
         }
     }
     return (
         <div>
-            <section className="bg-gray-50 dark:bg-gray-900">
+            <section className="bg-gray-50 dark:bg-gray-900 md:h-screen">
                 <div className="flex flex-col items-center justify-center px-6 mx-auto md:h-100vh lg:py-0">
                     <Link href="/" className="flex items-center mt-10 text-2xl font-semibold text-gray-900 dark:text-white">
                         <Image src={'/resumora_logo.png'} width={'200'} height={'200'} alt='' />
@@ -86,6 +91,7 @@ export default function page() {
                                     email: '',
                                     password: '',
                                     confirmPassword: '',
+                                    terms:false,
                                 }}
                                 validationSchema={SignupSchema}
                                 onSubmit={(values, { resetForm }) => {
@@ -117,7 +123,7 @@ export default function page() {
                                         </div>
 
                                         {/* Country Name */}
-                                        
+
                                         {/* <div>
                                             <label for="countryName" className="block mb-2 text-semibold font-small text-gray-900 dark:text-white">Country</label>
                                             <Demo />
@@ -155,12 +161,17 @@ export default function page() {
 
                                         {/* Create an account button  */}
                                         <div className="flex items-start">
-                                            <div className="flex items-center h-5">
-                                                <input id="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="" />
+                                            {/* Terms and Conditions */}
+                                            <div>
+                                                <Field name="terms" aria-describedby="terms" type="checkbox" className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" />
                                             </div>
                                             <div className="ml-3 text-sm">
-                                                <label for="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <a class="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">Terms and Conditions</a></label>
+                                                <label for="terms" className="font-light text-gray-500 dark:text-gray-300">I accept the <Link className="font-medium text-primary-600 hover:underline dark:text-primary-500" href="#">Terms and Conditions</Link></label>
+                                                {errors.terms && touched.terms ? (
+                                                    <ErrorMessage name="terms" component="div" className="sm:text-sm text-semibold font-small dark:text-red-600" />
+                                                ) : null}
                                             </div>
+                                            {/* Terms and Conditions */}
                                         </div>
                                         <button type="submit" className="w-full text-white bg-gray-800 hover:bg-[#2f4454] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
                                         <p className="text-sm font-light text-gray-300 dark:text-gray-200">

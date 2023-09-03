@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link';
 import * as React from 'react'
+import { UseSelector, useSelector } from 'react-redux';
 
 
 export default function Home() {
+  const {token} = useSelector(state => state.user)
   return (
       <main className='dark:bg-gray-900'>
         {/* Navigation Bar */}
@@ -52,7 +54,7 @@ export default function Home() {
         {/* Make a resume button */}
         <div>
           <div className='flex justify-center'>
-            <Link href={'/chatGpt'} className='text-white bg-red-900 hover:bg-red-800 px-7 py-3 rounded-3xl animate-bounce'>Make a Resume Now</Link>
+            <Link href={'/resume'} className='text-white bg-red-900 hover:bg-red-800 px-7 py-3 rounded-3xl animate-bounce'>Make a Resume Now</Link>
           </div>
           <div className='mt-7'>
             <h1 className='text-center text-2xl font-bold text-[#123C69]'>Get noticed with the RESUMORA free online resume maker.</h1>
