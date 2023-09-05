@@ -9,6 +9,7 @@ export default function Home() {
   return (
       <main className='dark:bg-gray-900'>
         {/* Navigation Bar */}
+        {/* {token} */}
         <nav>
           <div className='max-w-auto px-50 mx-auto dark:bg-gray-900 flex justify-between'>
             <div className='flex justify-center space-x-6'>
