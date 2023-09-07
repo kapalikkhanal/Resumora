@@ -18,13 +18,13 @@ const userSlice = createSlice({
                 token,
                 isLoggedIn,
                 userDetails
-
-
             }
 
         },
         logout: (state) => {
-
+            return {
+                ...initialState
+            }
         },
     }
 });

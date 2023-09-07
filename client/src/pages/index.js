@@ -1,17 +1,18 @@
 import Image from 'next/image'
 import Link from 'next/link';
 import * as React from 'react'
-import { UseSelector, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router'
 import { Button } from '@chakra-ui/react';
 import { Menu, MenuButton, MenuList, MenuDivider } from '@chakra-ui/react'
+import {logout} from '../redux/reducerSlices/userSlice'
 
 
 export default function Home() {
   const { token } = useSelector(state => state.user)
   const { isLoggedIn } = useSelector(state => state.user)
   const router = useRouter()
-
+  const dispatch = useDispatch()
   return (
     <main className='dark:bg-gray-900'>
       {/* Navigation Bar */}
@@ -37,9 +38,6 @@ export default function Home() {
           <div className='text-white flex items-center space-x-5 mx-10'>
 
             {/* If Else  */}
-            <>
-
-            </>
 
             {!isLoggedIn ?
               <>
@@ -67,7 +65,7 @@ export default function Home() {
                   <MenuList bgColor={'gray.900'}>
                     <div className='flex flex-col justify-center '>
                       <button className='bg-gray-900 hover:bg-gray-800 p-2'>My Account</button>
-                      <button className='bg-gray-900 hover:bg-gray-800 p-2'>Logout</button>
+                      <button onClick={()=>{dispatch(logout())}} className='bg-gray-900 hover:bg-gray-800 p-2'>Logout</button>
                     </div>
                   </MenuList>
                 </Menu>
