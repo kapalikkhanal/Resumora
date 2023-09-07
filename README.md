@@ -33,3 +33,9 @@ Resumora aims to simplify the resume-building process, providing users with temp
 ## Screenshots
 * Landing Page
     ![1](https://github.com/kapalikkhanal/Resumora/blob/main/client/public/loginPage_ss.png)
+  
+* Login Page
+    ![1](https://github.com/kapalikkhanal/Resumora/blob/main/client/public/login_ss.png)
+
+* Register Page
+    ![1](https://github.com/kapalikkhanal/Resumora/blob/main/client/public/register_ss.png)
