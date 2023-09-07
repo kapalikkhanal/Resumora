@@ -30,5 +30,6 @@ Resumora aims to simplify the resume-building process, providing users with temp
 * Example templetes.
 * FAQs
 
-##Example Video
-    ![Click Here for Video](https://github.com/kapalikkhanal/Resumora/assets/9557660142abf22a-d2c3-4768-b309-acef3e187317)
+## Screenshots
+* Landing Page
+    ![1](https://github.com/kapalikkhanal/Resumora/blob/main/client/public/loginPage_ss.png)
