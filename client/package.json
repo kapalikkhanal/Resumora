@@ -24,6 +24,7 @@
     "@mui/styled-engine-sc": "^5.14.6",
     "@react-pdf/renderer": "^3.1.12",
     "@reduxjs/toolkit": "^1.9.5",
+    "animejs": "^3.2.1",
     "autoprefixer": "10.4.15",
     "axios": "^1.4.0",
     "docx-templates": "^4.11.3",

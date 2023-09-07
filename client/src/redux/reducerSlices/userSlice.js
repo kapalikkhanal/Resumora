@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 export const initialState = {
-    token: 'kapalik',
+    token: '',
     id: '',
     userDetails: {},
     isLoggedIn: false
