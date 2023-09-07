@@ -5,8 +5,8 @@ import { createReport } from 'docx-templates';
 import * as fs from 'fs';
 
 // const template = fs.readFileSync('template.docx');
-const result = fs.readFilesync('template.docs');
-console.log(result);
+// const result = fs.readFilesync('template.docs');
+// console.log(result);
 
 const Template = ({ firstName, lastName, email, phone, country, city, license, dob }) => {
     return (

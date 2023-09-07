@@ -5,6 +5,10 @@ import Link from 'next/link'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useToast } from '@chakra-ui/react'
+import { setLoginDetails } from '../../redux/reducerSlices/userSlice'
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router'
+
 
 const SigninSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Required'),
@@ -14,8 +18,10 @@ const SigninSchema = Yup.object().shape({
         .oneOf([true], 'You must accept the terms and conditions.'),
 });
 
-function page() {
+const page = () => {
     const toast = useToast()
+    const dispatch = useDispatch()
+    const router = useRouter()
     const handleSubmit = async (values) => {
         const res = await fetch('http://localhost:3005/login', {
             method: 'POST',
@@ -24,6 +30,10 @@ function page() {
         })
         const data = await res.json()
         const status = await res.status
+        if (data.isLoggedIn) {
+            dispatch(setLoginDetails(data))
+            router.push('/')
+        }
         if (status == 404) {
             toast({
                 title: data.msg,
@@ -44,7 +54,7 @@ function page() {
         }
     }
     return (
-        <main className="bg-gray-50 dark:bg-gray-900 md:h-screen">
+        <main className="bg-gray-50 dark:bg-gray-900 h-screen">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                 <Link href="/" className="flex items-center mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
                     <Image src={'/resumora_logo.png'} width={'200'} height={'200'} />
