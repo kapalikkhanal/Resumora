@@ -1,33 +1,43 @@
-import { useEffect } from 'react';
-import { TemplateHandler } from 'docx-templates';
+import { readFileSync, writeFileSync } from 'fs';
+import { createReport } from 'docx-templates';
+import React from 'react'
 
+const template = readFileSync('public/templates/template.docx');
 
+// const buffer = (firstName, surname) => await createReport({
+//   template,
+//   data: {
+//     first_name: 'John',
+//     surname: 'Appleseed',
+//   },
+// });
 
-export default function DocxGenerationPage() {
-    useEffect(() => {
-        // Create a new TemplateHandler instance
-        const templateHandler = new TemplateHandler();
+const generateBuffer = async (firstName, surname) => {
+  const buffer = await createReport({
+    template,
+    data: {
+      first_name: firstName,
+      surname: surname,
+    },
+  });
+  return buffer;
+};
 
-        // Load your Word template document
-        templateHandler.loadFile('/template.docx');
-
-        // Data to replace the placeholders in the document
-        const data = {
-            placeholder1: 'Replace with data 1',
-            placeholder2: 'Replace with data 2',
-        };
-
-        // Generate the document with the provided data
-        const generatedDoc = templateHandler.render(data);
-
-        // Download or serve the generatedDoc as needed
-        // For example, you can create a download link or display it on the page
-        // ...
-    }, []);
-
-    return (
-        <div>
-            {/* Display or handle the generated document */}
-        </div>
-    );
+try {
+  const buffer = await generateBuffer('Kapalik', 'Appleseed');
+  writeFileSync('public/templates/report.docx', buffer);
+  console.log('Report generated and saved successfully.');
+} catch (error) {
+  console.error('Error generating or saving the report:', error);
 }
+
+
+
+
+function index() {
+  return (
+    <div>index</div>
+  )
+}
+
+export default index

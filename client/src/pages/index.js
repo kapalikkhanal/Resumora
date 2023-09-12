@@ -1,25 +1,21 @@
 import Image from 'next/image'
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router'
-import { Button } from '@chakra-ui/react';
-import { Menu, MenuButton, MenuList, MenuDivider } from '@chakra-ui/react'
-import { logout } from '../redux/reducerSlices/userSlice'
-import SplashScreen from './splashscreen/index'
+import SplashScreen from './components/Splashscreen/index'
 import { usePathname } from 'next/navigation'
-import { path } from 'animejs'
+import NavBar from '../pages/components/NavBar'
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Home() {
-  const { token } = useSelector(state => state.user)
-  const { isLoggedIn } = useSelector(state => state.user)
-  const router = useRouter()
-  const dispatch = useDispatch()
 
   // For Splash Screen 
   const pathname = usePathname()
   const isHome = pathname === "/"
   const [isLoading, setIsLoading] = useState(isHome)
+
+  //From Redex
+  const { isLoggedIn } = useSelector(state => state.user)
+  const { userDetails } = useSelector(state => state.user)
 
   useEffect(() => {
     if (isLoading)
@@ -27,78 +23,16 @@ export default function Home() {
   }, [isLoading])
 
   return (
-    <main className='dark:bg-gray-900'>
+    <main className='dark:bg-gray-900 min-h-screen'>
 
       {isLoading && isHome ? (
         <>
           <SplashScreen finishLoading={() => setIsLoading(false)} />
-         
+
         </>
       ) : (
         <>
-          {/* Navigation Bar */}
-          {/* {token} */}
-          <nav>
-            <div className='max-w-auto px-50 mx-auto dark:bg-gray-900 flex justify-between'>
-              <div className='flex justify-center space-x-6'>
-                {/* Logo */}
-                <div className='mx-8 p-2'>
-                  <Image src={'/resumora_logo.png'} width={'200'} height={'200'} alt='' />
-                  <Link href={"/"}></Link>
-                </div>
-
-                {/* Primary Nav Bar */}
-                <div className='text-white flex items-center space-x-5 ml-10'>
-                  <a href='#' className='hover:bg-[#2f4454] py-1 px-4 rounded-md transition ease-in-out delay-50 hover:-translate-x-1 hover:scale-10'>Home</a>
-                  <a href='#' className='hover:bg-[#2f4454] py-1 px-4 rounded-md transition ease-in-out delay-50 hover:-translate-x-1 hover:scale-10'>Templetes</a>
-                  <a href='#' className='hover:bg-[#2f4454] py-1 px-4 rounded-md transition ease-in-out delay-50 hover:-translate-x-1 hover:scale-10'>Offers</a>
-                </div>
-
-                {/* Secondary Nav Bar */}
-              </div>
-              <div className='text-white flex items-center space-x-5 mx-10'>
-
-                {/* If Else  */}
-
-                {!isLoggedIn ?
-                  <>
-                    <Button onClick={() => router.push('/login')} className='bg-gray-900 hover:bg-[#2f4454] py-1 px-7 rounded-2xl transition ease-in-out delay-100 hover:-translate-x-1 hover:scale-10'>Login</Button>
-                    <Link href="/register" className="text-center pt-1 relative w-28 h-9 hover:bg-[#2f4454] hover:text-white focus:outline-none border-2 border-white-700 rounded-2xl transition duration-300">
-                      <span className="absolute -right-2  h-3 w-3">
-                        <span className="animate-ping absolute  -bottom-2 -left-1  inline-flex h-5 w-5 rounded-full bg-purple-400 opacity-100"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
-                      </span>
-                      <span className="text-white-90">Sign Up</span>
-                    </Link>
-                  </>
-                  :
-                  <>
-                    <Menu width={'0px'} height={'50px'}>
-                      <MenuButton
-                        transition='all 0.1s'
-                        borderRadius='full'
-                        borderWidth='none'
-                      >
-                        <div className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 ring-2 ring-gray-300 dark:ring-gray-500">
-                          <svg className="absolute w-10 h-10 text-gray-400 -left-1" focusable="flase" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-                        </div>
-                      </MenuButton>
-                      <MenuList bgColor={'gray.900'}>
-                        <div className='flex flex-col justify-center '>
-                          <button className='bg-gray-900 hover:bg-gray-800 p-2'>My Account</button>
-                          <button onClick={() => { dispatch(logout()) }} className='bg-gray-900 hover:bg-gray-800 p-2'>Logout</button>
-                        </div>
-                      </MenuList>
-                    </Menu>
-                  </>
-
-                }
-                {/* {!isLoggedIn && <Button onClick={() => router.push('/login')} className='text-white hover:bg-[#2f4454] py-2 px-7 rounded-2xl transition ease-in-out delay-100 hover:-translate-x-1 hover:scale-10'>Login</Button>} */}
-
-
-              </div>
-            </div>
-          </nav>
+          <NavBar />
           {/* End of Navigation Bar */}
 
           <div className='text-white pt-28 pb-16'>
@@ -122,7 +56,7 @@ export default function Home() {
               <p className='text-center text-gray-200'>to showcase your experience, skills, and knowledge front and center.</p>
             </div>
             <div className='text-white flex justify-center mt-8 mb-10 '>
-              <a href=''>
+              <a>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" animate-bounce w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 5.25l-7.5 7.5-7.5-7.5m15 6l-7.5 7.5-7.5-7.5" />
                 </svg>
@@ -134,7 +68,7 @@ export default function Home() {
           <section className="bg-gray-50 dark:bg-gray-800">
             <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
               <div className="flex flex-col justify-center">
-                <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Personalize your job applications with us.</h1>
+                <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{userDetails.firstName} Personalize your job applications with us.</h1>
                 <p className="mb-6 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Confidently send off an eye-catching resume made by us. Browse from a wide collection of free, contemporary resume templates in the editor until you’ve landed on one that represents you and your professional experiences the best.</p>
                 <a href="#" className="text-blue-600 dark:text-red-500 hover:underline font-medium text-lg inline-flex items-center">Wants to know more about us?
                   <svg className="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -142,6 +76,9 @@ export default function Home() {
                   </svg>
                 </a>
               </div>
+
+              {/* Start of Sign in  */}
+
               <div>
                 <div className="w-full lg:max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded-lg shadow-2xl dark:bg-gray-800">
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
@@ -172,6 +109,9 @@ export default function Home() {
                   </form>
                 </div>
               </div>
+
+              {/* End of Sign in  */}
+
             </div>
           </section>
           {/* End of Jumborton */}

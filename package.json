@@ -7,5 +7,9 @@
   },
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "@material-tailwind/react": "^2.1.1",
+    "pdf-lib": "^1.17.1"
+  }
 }

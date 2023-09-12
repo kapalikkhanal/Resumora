@@ -12,12 +12,12 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setLoginDetails: (state, actions) => {
-            const { token, isLoggedIn, userDetails } = actions.payload
+            const { token, isLoggedIn, userInfo } = actions.payload
             return {
                 ...state,
                 token,
                 isLoggedIn,
-                userDetails
+                userDetails:userInfo,
             }
 
         },

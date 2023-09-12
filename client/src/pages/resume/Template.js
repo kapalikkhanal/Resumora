@@ -1,12 +1,10 @@
 // components/Template.js
 
 import React from 'react';
+import { readFileSync, writeFileSync} from 'fs';
 import { createReport } from 'docx-templates';
-import * as fs from 'fs';
 
-// const template = fs.readFileSync('template.docx');
-// const result = fs.readFilesync('template.docs');
-// console.log(result);
+const template = readFileSync('public/templates/template.docx');
 
 const Template = ({ firstName, lastName, email, phone, country, city, license, dob }) => {
     return (
@@ -23,13 +21,4 @@ const Template = ({ firstName, lastName, email, phone, country, city, license, d
     );
 };
 
-// const Template = ({ firstName, lastName, email, phone, country, city, license, dob }) => createReport({
-//     template,
-//     data: {
-//         first_name: { firstName },
-//         surname: { lastName },
-//     },
-// })
-
-// fs.writeFileSync('report.docx', Template)
 export default Template;

@@ -71,7 +71,7 @@ export default function page() {
     }
     return (
         <div>
-            <section className="bg-gray-50 dark:bg-gray-900 md:h-screen">
+            <section className="bg-gray-50 dark:bg-gray-900 min-h-screen">
                 <div className="flex flex-col items-center justify-center px-6 mx-auto md:h-100vh lg:py-0">
                     <Link href="/" className="flex items-center mt-10 text-2xl font-semibold text-gray-900 dark:text-white">
                         <Image src={'/resumora_logo.png'} width={'200'} height={'200'} alt='' />
