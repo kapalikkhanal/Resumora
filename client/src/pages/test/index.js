@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'fs';
 import { createReport } from 'docx-templates';
 import React from 'react'
 
-const template = readFileSync('public/templates/template.docx');
+const template = readFileSync('public/Templates/template.docx');
 
 // const buffer = (firstName, surname) => await createReport({
 //   template,
@@ -25,7 +25,7 @@ const generateBuffer = async (firstName, surname) => {
 
 try {
   const buffer = await generateBuffer('Kapalik', 'Appleseed');
-  writeFileSync('public/templates/report.docx', buffer);
+  writeFileSync('public/Templates/report.docx', buffer);
   console.log('Report generated and saved successfully.');
 } catch (error) {
   console.error('Error generating or saving the report:', error);

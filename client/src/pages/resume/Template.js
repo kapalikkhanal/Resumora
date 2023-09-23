@@ -4,7 +4,7 @@ import React from 'react';
 import { readFileSync, writeFileSync} from 'fs';
 import { createReport } from 'docx-templates';
 
-const template = readFileSync('public/templates/template.docx');
+// const template = readFileSync('public/templates/template.docx');
 
 const Template = ({ firstName, lastName, email, phone, country, city, license, dob }) => {
     return (

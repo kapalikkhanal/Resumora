@@ -1,17 +1,45 @@
 'use client'
 import { React } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import Image from 'next/image'
-import Link from 'next/link';
 import { useToast } from '@chakra-ui/react'
 import NavBar from '../components/NavBar'
 import { useDispatch, useSelector } from 'react-redux';
-import { useSelect } from '@mui/base';
-
+import {changeUserDetails} from '../../redux/reducerSlices/userSlice'
 
 export default function page() {
     const toast = useToast()
     const { userDetails } = useSelector(state => state.user)
+    const dispatch =useDispatch()
+
+    const uploadImage = async (file) => {
+        const formData = new FormData()
+        formData.append('avatar', file)
+        const res = await fetch('http://localhost:3005/user-image/' + userDetails._id, {
+            method: 'POST',
+            body: formData
+        })
+        const data = await res.json()
+    }
+
+    const fetchUserDetails = async () => {
+        const res = await fetch('http://localhost:3005/user/' + userDetails._id)
+        const data = await res.json()
+        if (data) {
+            dispatch(changeUserDetails(data.userDetails))
+        }
+    }
+
+    const editUsersDetails = async (values) => {
+        const res = await fetch('http://localhost:3005/accountDetails/' + userDetails._id, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values)
+        })
+        const data = await res.json()
+        if (res.status == 200) {
+            fetchUserDetails()
+        }
+    }
 
     const handleSubmit = async (values) => {
         const res = await fetch('http://localhost:3005/user', {
@@ -19,30 +47,8 @@ export default function page() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(values) // We can Search for Status Code as Well
         })
-        const data = await res.json()
-        const status = await res.status
-        if (status == 409) {
-            toast({
-                title: data.msg,
-                status: 'error',
-                position: 'top-right',
-                duration: 3000,
-                isClosable: true,
-            })
-        }
-        else if (status == 200) {
-            toast({
-                title: data.msg,
-                status: 'success',
-                duration: 3000,
-                isClosable: true,
-                position: 'top-right',
-                render: () => (
-                    <Link href={"/"}></Link>
-                )
-            })
-        }
     }
+
     return (
         <div>
             <body className="min-h-screen w-full bg-gray-50 dark:bg-gray-900">
@@ -61,7 +67,7 @@ export default function page() {
                                 initialValues={userDetails}
                                 onSubmit={(values, { resetForm }) => {
                                     // same shape as initial values
-                                    handleSubmit(values);
+                                    editUsersDetails(values)
                                     resetForm({ values: '' })
                                 }}
                             >
@@ -104,15 +110,23 @@ export default function page() {
                                                 <ErrorMessage name="email" component="div" className="sm:text-sm text-semibold font-small dark:text-red-600" />
                                             ) : null}
                                         </div>
-                                        <button type="submit" className="w-full text-white bg-gray-800 hover:bg-[#2f4454] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Update Details</button>
+
+                                        {/* Upload Image  */}
+                                        <div>
+                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload Profile Image</label>
+                                            <input class="hover:bg-[#2f4454] block w-full p-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer dark:text-gray-400 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400" id="file_input" type="file" />
+                                        </div>
+
+
+                                        <button type="submit" onChange={e => uploadImage(e.target.files[0])}  className="w-full text-white bg-gray-800 hover:bg-[#2f4454] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Update Details</button>
                                     </Form>
                                 )}
                             </Formik>
                         </div>
-                    </div>
-                </div>
-            </body>
-        </div>
+                    </div >
+                </div >
+            </body >
+        </div >
 
     );
 }
